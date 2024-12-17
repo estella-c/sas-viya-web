@@ -1,0 +1,565 @@
+<!-- Site I was referencing/imitating for this assignment: https://www.sas.com/en_us/software/visual-analytics.html -->
+<!-- Bootstrap sidebars: https://getbootstrap.com/docs/5.0/examples/sidebars/# -->
+<!-- Bootstrap: https://www.w3schools.com/bootstrap/bootstrap_ref_all_classes.asp -->
+<!-- Datatables.net: https://datatables.net/examples/basic_init/zero_configuration.html -->
+<!-- Referenced ChatGPT to help me with JS syntax and debugging -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <title>SAS Visual Analytics</title>
+</head>
+<body>
+    <!-- Headers -->
+    <p class="span sas-header">SAS Visual Analytics - Explore and Visualize</p>
+    <div class="row sas-options-top">
+        <div class="col-md-2 text-left"><p><i class="bi bi-pencil"></i> Editing</p></div>
+        <div class="col-md-8 text-center"><p class="font-weight-bold">Internet Usage Census (North Carolina)</p></div>
+        <div class="col-md-2 text-right">
+            <i class="bi bi-arrow-counterclockwise"></i>
+            <i class="bi bi-arrow-clockwise"></i>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy" viewBox="0 0 16 16">
+                <path d="M11 2H9v3h2z"/>
+                <path d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z"/>
+            </svg>
+            <i class="bi bi-three-dots-vertical"></i>
+            <i class="bi bi-person-circle"></i>
+        </div>
+    </div>
+    <!-- Main Content -->
+    <div class="row">
+        <!-- L Sidebar -->
+        <div class="col-md-1">
+            <div class="d-flex justify-content-start">
+                <!-- Sidebars modified from Bootstrap Documentation https://getbootstrap.com/docs/5.0/examples/sidebars/# -->
+                <div class="text-center d-none d-sm-block" style="width: 3rem; background-color: rgb(248 249 251);">
+                    <ul class="nav nav-pills nav-flush flex-column mb-auto text-center sidebar" style="background-color: rgb(248 249 251);">
+                      <li class="border-bottom">
+                        <i class="bi bi-three-dots"></i>
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database" viewBox="0 0 16 16">
+                            <path d="M4.318 2.687C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4c0-.374.356-.875 1.318-1.313M13 5.698V7c0 .374-.356.875-1.318 1.313C10.766 8.729 9.464 9 8 9s-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777A5 5 0 0 0 13 5.698M14 4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13zm-1 4.698V10c0 .374-.356.875-1.318 1.313C10.766 11.729 9.464 12 8 12s-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777A5 5 0 0 0 13 8.698m0 3V13c0 .374-.356.875-1.318 1.313C10.766 14.729 9.464 15 8 15s-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13s3.022-.289 4.096-.777c.324-.147.633-.323.904-.525"/>
+                        </svg><br>Data
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-graph-up"></i><br>Objects
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-lightbulb"></i><br>Suggest
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-list-ul"></i><br>Outline
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <!-- L Sidebar END -->
+        <!-- CHARTS -->
+        <div class="col-sm-12 col-md-10 col-xl-10 charts-here">
+            <!-- Bootstrap Documentation for Tabs -->
+            <nav style="background-color: (239, 243, 246)">
+                <div class="nav nav-tabs nav-tabs-edit" id="nav-tab" role="tablist" style="background-color: (239, 243, 246)">
+                <button class="nav-link active" id="nav-tab-1" data-bs-toggle="tab" data-bs-target="#nav-tab-1-content" type="button" role="tab" aria-controls="nav-tab-1" aria-selected="true">Internet Concerns According to County and Age</button>
+                <button class="nav-link" id="nav-tab-2" data-bs-toggle="tab" data-bs-target="#nav-tab-2-content" type="button" role="tab" aria-controls="nav-tab-2" aria-selected="false">Internet Usage per Device</button>
+                <button class="nav-link" id="nav-tab-3" data-bs-toggle="tab" data-bs-target="#nav-tab-3-content" type="button" role="tab" aria-controls="nav-tab-3" aria-selected="false">Internet Usage Activities</button>
+                <button class="nav-link" id="nav-tab-4" data-bs-toggle="tab" data-bs-target="#nav-tab-4-content" type="button" role="tab" aria-controls="nav-tab-4" aria-selected="false">Internet Usage Locations</button>
+                <button class="nav-link" id="nav-tab-data" data-bs-toggle="tab" data-bs-target="#nav-tab-data-content" type="button" role="tab" aria-controls="nav-tab-data" aria-selected="false">Search Internet Data Table</button>
+                <button class="nav-link" id="nav-tab-x" data-bs-toggle="tab" data-bs-target="#nav-tab-x-content" type="button" role="tab" aria-controls="nav-tab-x" aria-selected="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"/></svg></button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-tab-1-content" role="tabpanel" aria-labelledby="nav-tab-1">
+                    <div class="tab-content-charts">
+                        <h1 class="font-weight-bold">Internet Concerns According to County and Age</h1>
+                        <div class="row">
+                            <div class="col-md-8 col-xl-8">
+                                <canvas id="chart1" height="240px"></canvas>
+                                <h4 class="chart1-labels-h">County Code Key</h4>
+                                <table class="chart1-labels-p table table-striped">
+                                    <thead><tr>
+                                        <th>Statistical Code</th>
+                                        <th>County Name</th>
+                                        <th>Largest City</th>
+                                    </tr></thead>
+                                    <tr>
+                                        <td>000</td>
+                                        <td>Other</td>
+                                        <td>in NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>001</td>
+                                        <td>Alamance</td>
+                                        <td>Burlington, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>021</td>
+                                        <td>Buncombe</td>
+                                        <td>Asheville, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>057</td>
+                                        <td>Davidson</td>
+                                        <td>Thomasville, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>067</td>
+                                        <td>Forsyth</td>
+                                        <td>Winston-Salem, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>119</td>
+                                        <td>Mecklenburg</td>
+                                        <td>Charlotte, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>133</td>
+                                        <td>Onslow</td>
+                                        <td>Jacksonville, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>147</td>
+                                        <td>Pitt</td>
+                                        <td>Greenville, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>155</td>
+                                        <td>Robeson</td>
+                                        <td>Lumberton, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>159</td>
+                                        <td>Rowan</td>
+                                        <td>Salisbury, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>179</td>
+                                        <td>Union</td>
+                                        <td>Indian Trail, NC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>191</td>
+                                        <td>Wayne</td>
+                                        <td>Goldsboro, NC</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <h5 class="font-weight-bold">Individuals are concerned about...</h3>
+                                <h3 class="font-weight-bold">Identity Theft</h3>
+                                <h2 class="big-stats font-weight-bold">715 (32%)</h2>
+                                <h3 class="font-weight-bold">Credit or Banking Fraud</h3>
+                                <h2 class="big-stats font-weight-bold">516 (23%)</h2>
+                                <h3 class="font-weight-bold">Data Collection and Tracking</h3>
+                                <h2 class="big-stats font-weight-bold">329 (15%)</h2>
+                                <h6 class="font-weight-bold text-uppercase chart-desc-title">Does age and location influence internet concerns?</h6>
+                                <p class="chart-desc">Overall, the data seems to indicate that most online concerns are spread accross all ages and locations.
+                                    I divided all "Yes" responses (out of n=2245) by county and mapped them according to the age of the respondents. The most frequent concern 
+                                    for was Identity Theft, followed by Credit or Banking Fraud, then Data Collection and Tracking.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-tab-2-content" role="tabpanel" aria-labelledby="nav-tab-2">
+                    <div class="tab-content-charts">
+                        <h1 class="font-weight-bold">Internet Usage per Device</h1>
+                        <div class="row">
+                            <div class="col-md-8 col-xl-8">
+                                <canvas id="chart2"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="font-weight-bold">Internet Access by Laptop</h3>
+                                <h2 class="big-stats font-weight-bold">1378 (61%)</h2>
+                                <h3 class="font-weight-bold">Internet Access by Phone</h3>
+                                <h2 class="big-stats font-weight-bold">1515 (67%)</h2>
+                                <h3 class="font-weight-bold">Income Divisions</h3>
+                                <h2 class="big-stats font-weight-bold">16</h2>
+                                <h6 class="font-weight-bold text-uppercase chart-desc-title">How are users accessing the internet?</h6>
+                                <p class="chart-desc">According to the user responses, most access the internet via laptop or phone, with phone
+                                    being most users' primary method of accessing the internet. The data indicates that tablets and smart TVs 
+                                    are also growing in popularity.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-tab-3-content" role="tabpanel" aria-labelledby="nav-tab-3">
+                    <div class="tab-content-charts">
+                        <h1 class="font-weight-bold">Internet Usage Activities</h1>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <canvas id="chart3" height="120%"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="font-weight-bold">Text online</h3>
+                                <h2 class="big-stats font-weight-bold">93.78%</h2>
+                                <h3 class="font-weight-bold">Social media usage</h3>
+                                <h2 class="big-stats font-weight-bold">74.57%</h2>
+                                <h3 class="font-weight-bold">Online shopping usage</h3>
+                                <h2 class="big-stats font-weight-bold">68.477%</h2>
+                                <h6 class="font-weight-bold text-uppercase chart-desc-title">How are people spending their time on the internet?</h6>
+                                <p class="chart-desc">Overall, most internet users seem to prioritize communication, shopping, and banking. Communication 
+                                    includes email, texting and social media. Interestingly, over 50% of respondents reported using the internet to access
+                                    online health records or watch videos online.
+                                </p>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-tab-4-content" role="tabpanel" aria-labelledby="nav-tab-4">
+                    <div class="tab-content-charts">
+                        <h1 class="font-weight-bold">Internet Usage Locations</h1>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <canvas id="chart4" height="120%"></canvas>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="font-weight-bold">Samples</h3>
+                                <h2 class="big-stats font-weight-bold">2245</h2>
+                                <h3 class="font-weight-bold">Use Internet When Traveling</h3>
+                                <h2 class="big-stats font-weight-bold">1217 (54%)</h2>
+                                <h3 class="font-weight-bold">Use Internet At Work</h3>
+                                <h2 class="big-stats font-weight-bold">915 (41%)</h2>
+                                <h6 class="font-weight-bold text-uppercase chart-desc-title">Where are users accessing the internet (other than home)?</h6>
+                                <p class="chart-desc">The data indicates that most users tend to access the internet while traveling or at work. However, 
+                                    a considerable number of individuals also access the internet at school or in cafes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Datatables.net -->
+                <!-- https://datatables.net/examples/basic_init/zero_configuration.html -->
+                <div class="tab-pane fade" id="nav-tab-data-content" role="tabpanel" aria-labelledby="nav-tab-data">
+                    <div class="tab-content-charts">
+                        <h1 class="font-weight-bold">Search Data Table</h1>
+                        <p>Using datatables.net, the Internet census data for North Carolina is now searchable!</p>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <table id="internetTable" class="display table-spacing">
+                                    <thead>
+                                        <tr>
+                                            <th>Month of Interview</th>
+                                            <th>Year of Interview</th>
+                                            <th>Survey Outcome</th>
+                                            <th>Housing Payment</th>
+                                            <th>Housing Type</th>
+                                            <th>Present Telephone</th>
+                                            <th>Family Income</th>
+                                            <th>Household Members</th>
+                                            <th>Household Members Type</th>
+                                            <th>Number of Households in Sample</th>
+                                            <th>Interview Type</th>
+                                            <th>Geo Region</th>
+                                            <th>Geo Division</th>
+                                            <th>State</th>
+                                            <th>CBSA</th>
+                                            <th>County</th>
+                                            <th>Metropolitan Status</th>
+                                            <th>Metropolitan CBSA Population Size</th>
+                                            <th>Age</th>
+                                            <th>Sex</th>
+                                            <th>Highest Level of Education</th>
+                                            <th>Race</th>
+                                            <th>Citizenship Status</th>
+                                            <th>Employment Status</th>
+                                            <th>Retired Y/N</th>
+                                            <th>Disabled Y/N</th>
+                                            <th>Weekly Work Hours</th>
+                                            <th>Full Time</th>
+                                            <th>Worker Class</th>
+                                            <th>Worker Class 2</th>
+                                            <th>Private or Government</th>
+                                            <th>Hourly Job Y/N</th>
+                                            <th>Enrolled in School</th>
+                                            <th>School Level</th>
+                                            <th>In School Y/N</th>
+                                            <th>PWF MWGT</th>
+                                            <th>PWL GWGT</th>
+                                            <th>PWOR WGGT</th>
+                                            <th>Final Demographic Weight</th>
+                                            <th>Laptop Usage</th>
+                                            <th>Desktop Usage</th>
+                                            <th>Tablet Usage</th>
+                                            <th>Cell Phone Usage</th>
+                                            <th>Smart Watch</th>
+                                            <th>Smart TV</th>
+                                            <th>Device Connect Well to Internet</th>
+                                            <th>Unable to Use Internet in Last 6 Months</th>
+                                            <th>Internet Usage Location (Work)</th>
+                                            <th>Internet Usage Location (School)</th>
+                                            <th>Internet Usage Location (Cafe)</th>
+                                            <th>Internet Usage Location (Travel)</th>
+                                            <th>Internet Usage Location (Public)</th>
+                                            <th>Internet Usage Location (Home)</th>
+                                            <th>Phone Data Plan</th>
+                                            <th>Internet Access By 1</th>
+                                            <th>Internet Access By 2</th>
+                                            <th>Internet Access By 3</th>
+                                            <th>Internet Connection Meets Needs</th>
+                                            <th>Difficulty Paying for Internet</th>
+                                            <th>Email Online</th>
+                                            <th>Texting Messaging Online</th>
+                                            <th>Social Media Online</th>
+                                            <th>Gaming Online</th>
+                                            <th>Conferences Call Online</th>
+                                            <th>Watch Video Online</th>
+                                            <th>Listen to Audio Online</th>
+                                            <th>Content Creation Online</th>
+                                            <th>Work from Home</th>
+                                            <th>Job Search Online</th>
+                                            <th>Job Training Online</th>
+                                            <th>Government Services Online</th>
+                                            <th>Requesting Services Online</th>
+                                            <th>Selling Services Online</th>
+                                            <th>Shopping Online</th>
+                                            <th>Selling Items Online</th>
+                                            <th>Payment Banking Online</th>
+                                            <th>Digital Voice Assistant Online</th>
+                                            <th>IOT Online</th>
+                                            <th>Health Records Online</th>
+                                            <th>Health Communication Online</th>
+                                            <th>Health Research Online</th>
+                                            <th>Electronic Health Monitoring Online</th>
+                                            <th>Online Security Concern 1</th>
+                                            <th>Online Security Concern 2</th>
+                                            <th>Online Security Concern 3</th>
+                                            <th>Online Security Concern 4</th>
+                                            <th>Online Security Concern 5</th>
+                                            <th>Online Concerns 1</th>
+                                            <th>Online Concerns 2</th>
+                                            <th>Online Concerns 3</th>
+                                            <th>Online Concerns 4</th>
+                                            <th>Online Concerns 5</th>
+                                            <th>Online Concerns 6</th>
+                                            <th>Online Concerns 8</th>
+                                            <th>Online Security Breach</th>
+                                            <th>Online At Home</th>
+                                            <th>Not Online Y/N (1)</th>
+                                            <th>Not Online Y/N (2)</th>
+                                            <th>Not Online Y/N (3)</th>
+                                            <th>Not Online Y/N (4)</th>
+                                            <th>Not Online Y/N (5)</th>
+                                            <th>Not Online Y/N (6)</th>
+                                            <th>Not Online Y/N (7)</th>
+                                            <th>Not Online Y/N (8)</th>
+                                            <th>Not Online Y/N (9)</th>
+                                            <th>Not Online Y/N (10)</th>
+                                            <th>Why Not Online</th>
+                                            <th>Monthly Internet Price</th>
+                                            <th>Satellite TV Subscription Current</th>
+                                            <th>Satellite TV Subscription</th>
+                                            <th>Weighting PWP RM WGGT</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Data will be populated by DataTables -->
+                                    </tbody>
+                                </table>
+                                <script>
+                                    // Referenced ChatGPT for JS syntax to correctly reference json file
+                                    $(document).ready(function() {
+                                        $('#internetTable').DataTable({
+                                            "ajax": {
+                                                "url": "js/NC_Internet_Completed.json",
+                                                "dataSrc": ""
+                                            },
+                                            "scrollX": true,
+                                            "paging": true,
+                                            "searching": true,
+                                            "ordering": true,
+                                            "columns": [
+                                                { "data": "monthOfInterview" },
+                                                { "data": "yearOfInterview" },
+                                                { "data": "surveyOutcome" },
+                                                { "data": "housingPayment" },
+                                                { "data": "housingType" },
+                                                { "data": "presentTelephone" },
+                                                { "data": "familyIncome" },
+                                                { "data": "householdMembers" },
+                                                { "data": "householdMembersType" },
+                                                { "data": "numHouseholdsInSample" },
+                                                { "data": "interviewType" },
+                                                { "data": "geoRegion" },
+                                                { "data": "geoDivision" },
+                                                { "data": "state" },
+                                                { "data": "CBSA" },
+                                                { "data": "county" },
+                                                { "data": "metropolitanStatus" },
+                                                { "data": "metropolitanCBSAPopulationSize" },
+                                                { "data": "Age" },
+                                                { "data": "Sex" },
+                                                { "data": "highestLevelOfEducation" },
+                                                { "data": "Race" },
+                                                { "data": "citizenshipStatus" },
+                                                { "data": "employmentStatus" },
+                                                { "data": "retiredYN" },
+                                                { "data": "disabledYN" },
+                                                { "data": "weeklyWorkHours" },
+                                                { "data": "fullTime" },
+                                                { "data": "workerClass" },
+                                                { "data": "workerClass2" },
+                                                { "data": "privateOrGovernment" },
+                                                { "data": "hourlyJobYN" },
+                                                { "data": "enrolledInSchool" },
+                                                { "data": "schoolLevel" },
+                                                { "data": "inSchoolYN" },
+                                                { "data": "pwfmwgt" },
+                                                { "data": "pwlgwgt" },
+                                                { "data": "pworwgt" },
+                                                { "data": "finalDemographicWeight" },
+                                                { "data": "laptopUsage" },
+                                                { "data": "desktopUsage" },
+                                                { "data": "tabletUsage" },
+                                                { "data": "cellPhoneUsage" },
+                                                { "data": "smartWatch" },
+                                                { "data": "smartTV" },
+                                                { "data": "deviceConnectWellToInternet" },
+                                                { "data": "unableToUseInternet6Mo" },
+                                                { "data": "internetUsageLocationWork" },
+                                                { "data": "internetUsageLocationSchool" },
+                                                { "data": "internetUsageLocationCafe" },
+                                                { "data": "internetUsageLocationTravel" },
+                                                { "data": "internetUsageLocationPublic" },
+                                                { "data": "internetUsageLocationHomeOther" },
+                                                { "data": "phoneDataPlan" },
+                                                { "data": "internetAccessBy1" },
+                                                { "data": "internetAccessBy2" },
+                                                { "data": "internetAccessBy3" },
+                                                { "data": "internetConnectionMeetsNeeds" },
+                                                { "data": "difficultyPayingForInternet" },
+                                                { "data": "emailOnline" },
+                                                { "data": "textingMessagingOnline" },
+                                                { "data": "socialMediaOnline" },
+                                                { "data": "gamingOnline" },
+                                                { "data": "conferencesCallOnline" },
+                                                { "data": "watchVideoOnline" },
+                                                { "data": "listenAudioOnline" },
+                                                { "data": "contentCreationOnline" },
+                                                { "data": "workFromHome" },
+                                                { "data": "jobSearchOnline" },
+                                                { "data": "jobTrainingOnline" },
+                                                { "data": "governmentServicesOnline" },
+                                                { "data": "requestingServicesOnline" },
+                                                { "data": "sellingServicesOnline" },
+                                                { "data": "shoppingOnline" },
+                                                { "data": "sellingItemsOnline" },
+                                                { "data": "paymentBankingOnline" },
+                                                { "data": "digitalVoiceAssistantOnline" },
+                                                { "data": "iotOnline" },
+                                                { "data": "healthRecordsOnline" },
+                                                { "data": "healthCommunicationOnline" },
+                                                { "data": "healthResearchOnline" },
+                                                { "data": "electronicHealthMonitoringOnline" },
+                                                { "data": "onlineSecurityConcern1" },
+                                                { "data": "onlineSecurityConcern2" },
+                                                { "data": "onlineSecurityConcern3" },
+                                                { "data": "onlineSecurityConcern4" },
+                                                { "data": "onlineSecurityConcern5" },
+                                                { "data": "onlineConcerns1" },
+                                                { "data": "onlineConcerns2" },
+                                                { "data": "onlineConcerns3" },
+                                                { "data": "onlineConcerns4" },
+                                                { "data": "onlineConcerns5" },
+                                                { "data": "onlineConcerns6" },
+                                                { "data": "onlineConcerns8" },
+                                                { "data": "onlineSecurityBreach" },
+                                                { "data": "onlineAtHome" },
+                                                { "data": "notOnlineYN1" },
+                                                { "data": "notOnlineYN2" },
+                                                { "data": "notOnlineYN3" },
+                                                { "data": "notOnlineYN4" },
+                                                { "data": "notOnlineYN5" },
+                                                { "data": "notOnlineYN6" },
+                                                { "data": "notOnlineYN7" },
+                                                { "data": "notOnlineYN8" },
+                                                { "data": "notOnlineYN9" },
+                                                { "data": "notOnlineYN10" },
+                                                { "data": "whyNotOnline" },
+                                                { "data": "monthlyInternetPrice" },
+                                                { "data": "satelliteTVSubscriptionCurrent" },
+                                                { "data": "satelliteTVSubscription" },
+                                                { "data": "weightingPwprmwgt" }
+                                            ],
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="tab-pane fade" id="nav-tab-x-content" role="tabpanel" aria-labelledby="nav-tab-x">
+                    <div class="tab-content-charts">
+                        <h1 class="font-weight-bold">New Chart</h1>
+                    </div>
+                </div>
+        </div>
+        <!-- CHARTS END -->
+        <!-- R Sidebar -->
+        <div class="col-md-1">
+            <div class="d-flex justify-content-end">
+                <!-- Sidebars modified from Bootstrap Documentation https://getbootstrap.com/docs/5.0/examples/sidebars/# -->
+                <div class="text-center d-none d-sm-block" style="width: 3rem; background-color: rgb(248 249 251);">
+                    <ul class="nav nav-pills nav-flush flex-column text-center sidebar" style="background-color: rgb(248 249 251);">
+                      <li class="border-bottom">
+                        <i class="bi bi-three-dots"></i>
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-speedometer"></i><br>Options
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-database-down" viewBox="0 0 16 16">
+                            <path d="M12.5 9a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7m.354 5.854 1.5-1.5a.5.5 0 0 0-.708-.708l-.646.647V10.5a.5.5 0 0 0-1 0v2.793l-.646-.647a.5.5 0 0 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0"/>
+                            <path d="M12.096 6.223A5 5 0 0 0 13 5.698V7c0 .289-.213.654-.753 1.007a4.5 4.5 0 0 1 1.753.25V4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.5 4.5 0 0 1-.813-.927Q8.378 15 8 15c-1.464 0-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13h.027a4.6 4.6 0 0 1 0-1H8c-1.464 0-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10q.393 0 .774-.024a4.5 4.5 0 0 1 1.102-1.132C9.298 8.944 8.666 9 8 9c-1.464 0-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777M3 4c0-.374.356-.875 1.318-1.313C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4"/>
+                        </svg><br>Roles
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-check2-square"></i><br>Actions
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-bounding-box"></i><br>Rules
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-funnel"></i><br>Filters
+                      </li>
+                      <li class="py-3 border-bottom">
+                        <i class="bi bi-bar-chart"></i><br>Ranks
+                      </li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
+        <!-- R Sidebar END -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/chartjs-chart-geo@3.5.2/build/index.umd.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="js/scripts.js"></script>
+</body>
+</html>

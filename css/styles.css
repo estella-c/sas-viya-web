@@ -1,0 +1,141 @@
+:root {
+    --sas-blue: #0165CA;
+  }
+
+p {
+  margin-bottom: 0px;
+}
+
+h2 {
+  margin-bottom: 45px;
+}
+
+h6 {
+  margin-bottom: 10px;
+}
+
+.sas-header {
+    background-color: var(--sas-blue);
+    color: white;
+    text-align: center;
+    font-size: 10pt;
+    padding: 5px;
+}
+
+.sas-options-top {
+    font-size: 10pt;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.sas-options-top .bi {
+  padding: 2px;
+}
+
+body {
+  background-color: rgb(239, 243, 246);
+  font-family: "Red Hat Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1 {
+  font-size: 18pt;
+}
+
+ul {
+  list-style: none;
+  list-style: none;
+  padding-left: 5px;
+  margin-top: -10px;
+}
+
+div {
+  margin: 0px;
+  padding: 0px;
+}
+
+.sidebar {
+  font-size: 9pt;
+  padding: 2px;
+  overflow: hidden;
+}
+
+.sidebar i {
+  font-size: 12pt;
+  margin: auto;
+}
+
+.align-right-list {
+  text-align: right;
+  position: fixed; 
+  right: 0; 
+  top: 0; 
+  height: 100vh;
+}
+
+nav {
+  background-color: rgb(241 242, 246);
+  font-size: 10pt;
+}
+
+.nav-link {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.tab-pane .active {
+  border-top: black 2px solid;
+}
+
+.nav-tabs .nav-link {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.tab-content {
+  background-color: white;
+}
+
+.charts-here {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.tab-content-charts {
+  padding: 20px;
+}
+
+.big-stats {
+  color: rgb(28, 98, 158);
+  font-size: 35pt;
+}
+
+.chart-desc-title {
+  color: rgb(97, 97, 97);
+  font-size: 10pt;
+}
+
+.chart-desc {
+  color: rgb(65, 65, 65);
+  font-size: 8pt;
+}
+
+.chart1-labels-h {
+  margin-left: 40px;  
+}
+
+.chart1-labels-p {
+  font-size: 10pt;
+  background-color: white;
+  margin-left: 40px;
+}
+
+.county-table {
+  border-collapse: collapse;
+}
+
+.table-spacing {
+  margin: 10px;
+}
